@@ -18,6 +18,8 @@ if os.path.isfile("env.py"):
 
 from pathlib import Path
 
+development = os.environ.get('DEVELOPMENT', False)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-r*u9_n&6%**1-7@=ss#uqbn$-t^+p=h8so2j964wj_!5^mhra$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = development
 
 ALLOWED_HOSTS = ['olex-django-app-355216411f51.herokuapp.com']
 
@@ -80,28 +82,26 @@ WSGI_APPLICATION = 'django_todo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
-
-# DATABASES = {
-#     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'htxpqisd',
-        'USER': 'htxpqisd',
-        'PASSWORD': 'AogEvfc7To4MANn4rZXv85FPhV7c6_jW',
-        'HOST': 'flora.db.elephantsql.com',
-        'PORT': '5432',
+if development:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'htxpqisd',
+            'USER': 'htxpqisd',
+            'PASSWORD': 'AogEvfc7To4MANn4rZXv85FPhV7c6_jW',
+            'HOST': 'flora.db.elephantsql.com',
+            'PORT': '5432',
+        }
+    }
 
 
 # Password validation
